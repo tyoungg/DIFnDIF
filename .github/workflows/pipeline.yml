@@ -8,6 +8,9 @@ on:
   schedule:
     - cron: '0 0 * * 0'
 
+permissions:
+  contents: write
+
 jobs:
   run-pipeline:
     runs-on: ubuntu-latest
@@ -31,8 +34,12 @@ jobs:
       run: |
         python main.py
 
-    - name: Upload Master Panel Artifact
-      uses: actions/upload-artifact@v4
-      with:
-        name: master-panel-data
-        path: data/processed/master_panel.parquet
+    - name: Commit and push generated data
+      run: |
+        git config --global user.name 'github-actions[bot]'
+        git config --global user.email 'github-actions[bot]@users.noreply.github.com'
+        git add -f data/processed/master_panel.parquet
+        git add -f data/raw/prices/monthly_prices.csv
+        git add -f data/raw/fundamentals/quarterly_fundamentals.csv
+        git commit -m "chore: auto-generate financial panel data [skip ci]" || echo "No changes to commit"
+        git push
