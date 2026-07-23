@@ -1,0 +1,30 @@
+[build-system]
+requires = ["setuptools>=61.0.0", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "market-structure-lab"
+version = "0.1.0"
+description = "Market Structure Lab index inclusion research platform"
+readme = "README.md"
+requires-python = ">=3.9"
+dependencies = [
+    "yfinance>=0.2.0",
+    "pandas",
+    "numpy",
+    "streamlit",
+    "plotly",
+    "pyarrow",
+    "python-dotenv",
+    "scipy",
+    "scikit-learn",
+    "statsmodels",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest",
+    "pytest-cov",
+    "ruff",
+    "black",
+]
