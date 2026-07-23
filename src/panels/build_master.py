@@ -40,9 +40,9 @@ def build_master_panel(
     fundamentals = pd.read_csv(raw_path / "fundamentals" / "quarterly_fundamentals.csv")
     fundamentals['date'] = pd.to_datetime(fundamentals['date'])
     
-    # Sort by date and ticker (required for merge_asof)
-    prices = prices.sort_values(['ticker', 'date']).reset_index(drop=True)
-    fundamentals = fundamentals.sort_values(['ticker', 'date']).reset_index(drop=True)
+    # Sort globally by date (required for merge_asof)
+    prices = prices.sort_values('date').reset_index(drop=True)
+    fundamentals = fundamentals.sort_values('date').reset_index(drop=True)
     
     print("  Merging prices with fundamentals...")
     # The "Magic": merge_asof matches each monthly price with the most recent

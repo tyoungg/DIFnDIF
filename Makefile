@@ -38,7 +38,7 @@ streamlit:
 	streamlit run streamlit/app.py
 
 test:
-	pytest tests/ -v --cov=src
+	python -m pytest tests/ -v --cov=src
 
 clean:
 	find . -type d -name __pycache__ -exec rm -rf {} +

@@ -5,6 +5,21 @@ from pathlib import Path
 from typing import Optional
 
 
+def load_processed_data(filename: str):
+    """Centralized loader for the Streamlit app to access processed parquet files."""
+    # This looks for the file in the project root /data/processed/ folder
+    path = Path(__file__).parent.parent.parent / "data" / "processed" / filename
+
+    if not path.exists():
+        return None
+
+    try:
+        return pd.read_parquet(path)
+    except Exception as e:
+        print(f"Error loading {filename}: {e}")
+        return None
+
+
 def load_master_panel(processed_path: Optional[Path] = None) -> pd.DataFrame:
     """
     Load the master panel.

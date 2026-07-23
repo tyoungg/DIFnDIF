@@ -57,13 +57,14 @@ class DataDownloader:
             end=end_date,
             interval=interval,
             progress=True,
+            auto_adjust=False,
         )
         
-        # Handle single ticker case (returns Series instead of DataFrame)
-        if len(tickers) == 1:
-            adj_close = data[['Adj Close']].rename(columns={'Adj Close': tickers[0]})
-        else:
+        # Extract adjusted close prices (fallback to Close if Adj Close is missing)
+        if 'Adj Close' in data.columns:
             adj_close = data['Adj Close']
+        else:
+            adj_close = data['Close']
         
         # Calculate monthly returns
         returns = adj_close.pct_change()
@@ -201,8 +202,8 @@ def download_sp500_constituents() -> List[str]:
         # For now, return a well-known subset for testing
         sp500_tickers = [
             'AAPL', 'MSFT', 'GOOGL', 'AMZN', 'NVDA',
-            'META', 'TSLA', 'BRK.B', 'JNJ', 'V',
-            'JPM', 'WMT', 'PG', 'MA', 'HDFC',
+            'META', 'TSLA', 'BRK-B', 'JNJ', 'V',
+            'JPM', 'WMT', 'PG', 'MA', 'UNH',
             'COST', 'KO', 'PEP', 'AVGO', 'ACN',
         ]
         
